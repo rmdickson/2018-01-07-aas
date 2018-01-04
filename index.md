@@ -587,7 +587,6 @@ eventbrite:           # optional: alphanumeric key for Eventbrite registration, 
       </ol>
     </div>
   </div>
-</div>
 <!--
   <p>
   Once you are done installing the software listed above,
@@ -596,17 +595,7 @@ eventbrite:           # optional: alphanumeric key for Eventbrite registration, 
   </p>
 -->
 </div> <!-- End of 'Python' section. -->
-<div id='test'>
-    <h3> Test Your Setup </h3>
-  <p>
-    <a href="http://python.org">Python</a> is a popular language for
-    research computing, and great for general-purpose programming as
-    well.  Installing all of its research packages individually can be
-    a bit difficult, so we recommend
-    <a href="https://www.anaconda.com/distribution/">Anaconda</a>,
-    an all-in-one installer.
-  </p>
-</div>
+
 
 <!--
   Uncomment this section if you are using our virtual machine.
@@ -635,8 +624,16 @@ eventbrite:           # optional: alphanumeric key for Eventbrite registration, 
   </ol>
 </div>
 -->
+<div id='test'>
+    <h3> Test Your Setup </h3>
   <p>
-  Once you are done installing the software listed above,
-  please go to <a href="setup/index.html">this page</a>,
-  which has instructions on how to test that everything was installed correctly.
+    <a href="http://python.org">Python</a> is a popular language for
+    research computing, and great for general-purpose programming as
+    well.  Installing all of its research packages individually can be
+    a bit difficult, so we recommend
+    <a href="https://www.anaconda.com/distribution/">Anaconda</a>,
+    an all-in-one installer.
   </p>
+</div>
+  
+  
