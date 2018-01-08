@@ -1,0 +1,500 @@
+Welcome to Software Carpentry Etherpad!
+
+This pad is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents.
+
+Use of this service is restricted to members of the Software Carpentry and Data Carpentry community; this is not for general purpose use (for that, try etherpad.wikimedia.org).
+
+Users are expected to follow our code of conduct: http://software-carpentry.org/conduct.html
+
+All content is publicly available under the Creative Commons Attribution License: https://creativecommons.org/licenses/by/4.0/
+
+Here: http://pad.software-carpentry.org/2018-01-07-aas
+
+
+wifi: AAS Meeting
+password: aas124816
+
+Course website: http://bit.ly/swcaas231
+Repository: https://github.com/abostroem/2018-01-07-aas
+More info on SWC: http://software-carpentry.org
+
+Schedule for today:
+    
+08:00 Setup/Installation help (optional)
+09:00 Introductions
+09:30 Automating tasks with the Unix Shell
+10:30 Coffee Break
+11:00 Building programs with Python
+12:00 Lunch
+13:00 Building programs with Python
+15:00 Coffee Break
+15:30 Improving Code with Code Review
+17:00 Close
+
+Azalee/everyone 
+Great intro, thanks!
+
+Hello everyone - Dennis4
+
+Please download: http://swcarpentry.github.io/shell-novice/data/shell-novice-data.zip
+
+Hi!
+Hi There!
+
+Shell Lesson:
+    Download: http://swcarpentry.github.io/shell-novice/data/shell-novice-data.zip
+    Open a shell (terminal on mac, git-bash on windows)
+    Navigate to the shell-novice-data
+    cd directory_name - move to a directory
+    ls directory_name - list the files in a directory
+    mkdir directory_name - make a new directory
+    mv directory_name new_directory_name - change the name of directory_name to new_directory_name
+    
+    cd molecules
+    ls *
+	    you should see 6 .pdb files
+    wc -l *.pdb      : counts the number of lines in each file
+    wc -l *.pdb > lengths.txt     : put the output of the wc command into a file called lengths.txt
+    cat lengths.txt     : prints the contents of lengths.txt to the command prompt
+    less lengths.txt    : gives you a paging interface to the file; q to exit
+    more lengths.txt : also gives you a paging interface to file; q to exit
+    sort lengths.txt   : sorts lengths.txt  
+	    -n sort by numerical
+    man sort   : information on the sort command; q to exit
+    sort -n lengths.txt > sorted_lengths.txt
+    cat sorted_lengths.txt
+    head -n 1 sorted_lengths.txt  : print the first line in the file to the screen
+    head -n 3 sorted_lengths.txt  : print the first 3 lines in a file
+    tail -n 3 sorted_lengths.txt    : prints the last 3 lines in a file
+    too many intermediate files
+    wc -l *.pdb | sort -n   : takes output from the command on the left (wc) and uses it as input for the command on the right (sort)
+    can chain together as many as you want
+    wc -l *.pdb | sort -n | head -n 1    : | = pipe  l = lowercase L
+    
+    Loops:
+        cd ../creatures
+        for loop syntax: for variable in item_list do action done
+        for filename in basilisk.dat unicorn.dat
+        do
+            head -n 3 $filename
+        done
+        
+        for filename in *.dat
+        do 
+            echo $filename
+            head -n 100 $filename | tail -n 20
+        done
+        
+        echo <variable> : prints the <variable> to the screen
+        semi-colon is used to break lines in a loop if you don't want to hit enter
+        can redirect output to a file:
+                for filename in *.dat
+        do 
+            echo $filename
+            head -n 100 $filename | tail -n 20
+        done > output.txt
+        
+        Exercise solution:
+            for filename in *.dat
+            do 
+                cp $filename original_$filename
+                echo original_$filename
+            done
+            ls
+            Alternate solutions:
+                for filename in *.dat
+                do 
+                    cat $filename > original_$filename
+                done
+                
+            nano middle.sh
+	            type: head -n 15 "$1" | tail -n 5
+		ctl+x    enter    to exit and save
+		bash middle.sh octane.pdb
+		
+		$1 is a shell script variable that is passed from
+		
+		nano middle.sh
+		    head -n "$2" "$1" | tail -n "$3"
+		
+		# comment character
+		use quotes to take care of filenames that have spaces or other weird characters
+		
+		If you want to type:
+		bash middle.sh *.sh 15 10, then you want to use the $@ instead of $1
+		
+		nano sorted.sh
+		wc -l "$@" | sorted -n
+		
+		bash sorted.sh *.pdb
+		bash sorted.sh *c*.pdb
+		bash sorted.sh ocatne.pdb cubane.pdb
+		
+		nano longest.sh
+		wc -l "$1"/"*.$2" |sort -n | tail -n 2| head -n 1
+		bash longest.sh . pdb
+		
+		my longest.sh does ls -l  "$1""/"*."$2" | sort -n |tail -1  --joel <-- This will always give you the "total" as the largest file, won't it? This is what "tail -n 2 | head -n 1" solves
+		
+		
+		
+		
+Python:
+    git clone https://github.com/abostroem/2018-01-07-aas.git
+	    cd 2018-01-07-aas/code
+	    jupyter notebook
+	
+	In jupyter, navigate to "code". You should see "master_plan.ipynb"
+	Click "New" and choose a new Python notebook
+	You can change the name of the notebook at the top instead of "Untitled"
+	You can save a notebook through File > save & checkpoint
+	Notebooks usually autosave
+	
+	Cell blocks:
+	To execute a code block type Shift + Enter
+	Cell > Cell Type > Markdown will enable the cell block to render Markdown
+	Markdown cells will also render LaTeX commands
+	
+	Command mode:
+	Esc puts you in "command mode"
+	a = add above
+	b = add below
+	m = markdown cell
+	y = code cell (default)
+	1 = Level 1 heading
+	2 = Level 2 heading
+	
+	Putting a question mark (?) at the end of a library will bring up the help (e.g. math?)
+	dir() lists the available methods, functions, and attributes for a module (e.g. dir(math))
+	Tab completion works in jupyter notebook (e.g. math. <tab>) will bring up a list of available modules
+	
+	Strings:
+	You must be consistent with single and double quotes in Python
+	However nesting quotes works (e.g. '"star"')
+	'shooting' + 'star' == 'shootingstar'
+	'star' * 3 == 'starstarstar'
+	
+	Indexing:
+	'star'[0] == 's'
+	'star'[3] == 'r'
+	
+	Slicing:
+	'star'[0:2] == 'sta'
+	In Python, 0 is inclusive, and the last index is exclusive
+	
+	Variables:
+	y = 'star'
+	y[0] == 's'
+	y[-2] == 'a'
+	y[-3:-1 == 'ta'
+	
+	Operations:
+	y = 3
+	z=10
+	x = y+z
+	x == 13
+	
+	Printing:
+	print(x) (prints out 13)
+	
+	Containers:
+	Something that has more than one element in it (examples include lists, numpy arrays)
+	my_list = [1,2,3]
+	type(my_list) == list
+	my_list = ['a', 1, 'b', 'train', 3.0]  # lists can contains a mix of types
+	my_list2 = [1, 2, 3]
+	my_list + my_list2 == ['a', 1, 'b', 'train', 3.0, 1, 2, 3]
+	my_list*2 == ['a', 1, 'b', 'train', 3.0, 1, 2, 3, 'a', 1, 'b', 'train', 3.0, 1, 2, 3]
+	my_list[3] == 'train'
+	
+	Numpy Arrays:
+	import numpy as np
+	my_array = np.array([1, 2, 3]) # must be all the same type in list
+	my_array == array([1, 2, 3])
+	type(my_array) == numpy.ndarray
+	my_array*3 = array([3, 6, 9])  # Operations are element-wise
+	my_array/4 = array([0.25, 0.5, 0.75])
+	
+	
+	Exercise 1 Solution:
+	my_array2 = np.array([1,2,3,5,6,8,3,4,6])
+	my_array2-5 == array([-4,-3,-2,0,1,3,-2,-1,1])
+	np.mean(my_array2) == 4.222222222
+	np.mean?
+	my_array2-=5 is equivalent to my_array2 = my_array2 - 5
+	del my_array2 # Will delete the variable from memory
+	
+	Break for lunch
+	Reconvene at 1:30
+	
+	Attributes and Methods
+	numpy arrays attributes, e.g. my_array2.mean() which is the same as np.mean(my_array2)
+	numpy array methods, e.g my_array2.size --> note the missing parentheses 
+	
+	For loop:
+	my_fav_stars = ['sirius', 'deneb', 'proxima', 'aldebaran']
+	for star in my_fav_stars:
+		print('my favorite star is', star) --> identation is important
+	output:
+	my favorite star is sirius
+	my favorite star is deneb
+	my favorite star is proxima
+	my favorite star is aldebaran
+	
+	for letter in 'star':
+		print(letter)
+	outpu:t
+	s
+	t
+	a
+	r
+	
+	How to figure out what iteration of the loop you are on
+	for index, letter in enumerate('star'):
+		print(index, letter)
+	output:
+	0 s
+	1 t
+	2 a
+	3 r
+	
+	for letter1, letter2 in zip('star', 'banana'):
+		print(letter1, letter2)
+	output:
+	    s b
+	    t  a
+	    a n
+	    r  a
+	
+	
+Conditionals:
+	if condition:
+		do a
+	elif condition:
+		do b
+	else:
+		do c
+		
+	constellation = 'cygnus'
+	if constellation == 'cygnus':
+		print('cygnus is my fav constellation')
+	else:
+		print('{} is not my favorite constellation'.format(constellation))
+		
+Functions:
+my_list = [1,2,3,4,6,7,0,2] 
+total = 0 
+for num in my_list:    
+    total = total+num    
+mean = total/len(my_list) 
+sorted_list = sorted(my_list) 
+if len(my_list)%2 == 1:    
+    median_indx = int(len(my_list)/2)    
+    median = sorted_list[median_indx] 
+else:    
+    median_indx = int(len(my_list)/2)    
+    median = (sorted_list[median_indx]+sorted_list[median_indx-1])/2 
+print(mean, median) 
+my_array= np.array(my_list) 
+print(np.mean(my_array), np.median(my_array))
+
+def calc_total(my_list):
+	total = 0 
+	for num in my_list:    
+	    total = total+num   
+	return total
+	
+def calc_mean(my_list):
+       '''
+    calculate mean of input list
+    inputs:
+        my_list : list of numbers
+    outputs:
+        mean: mean of a list
+    '''
+	total = calc_total(my_list)
+	mean = total/len(my_list) 
+	return mean
+
+def calc_median(my_list):
+	sorted_list = sorted(my_list) 
+	if len(my_list)%2 == 1:    
+	    median_indx = int(len(my_list)/2)    
+	    median = sorted_list[median_indx] 
+	else:    
+	    median_indx = int(len(my_list)/2)    
+	    median = (sorted_list[median_indx]+sorted_list[median_indx-1])/2 
+	return median
+
+Generic Function syntax:
+	def func_name(input_var1, input_var2):
+	    a1 = inpput_var1 + input_var2
+	    a2 = input_var1 -input_ var2
+	    return a1, a2
+
+Exercise 3: Write a function that takes a distace in parsecs and converts it to a distance in megaparsecs
+Solution:
+    def par_to_megapar(distance):
+        '''
+        Converts parsec to megaparsecs
+        Input:
+            distance: distance in parsecs
+        Output:
+            distance: distance in megaparsecs
+        '''
+        distance/=1e6
+        return distance
+        
+Python for Data Analysis:
+	astropy: http://docs.astropy.org/en/stable/
+	STScI Webcast: https://webcast.stsci.edu/webcast/searchresults.xhtml?searchtype=20&eventid=247&sortmode=2
+	
+import astropy.units as u
+from astropy.io import ascii as asc (or import astropy.io.ascii as asc)
+
+cat ../data/hubble_data.dat --> quick view of the file
+filename = '../data/hubble_data.dat'
+tbdata = asc.read(filename) --> this will label columns with generic names (e.g. col1, col2)
+tbdata = asc.read(filename, names = ['galaxy', 'supernova', 'm', 'sig_m',  'dist_mod', 'sig_dist_mod',                          'M', 'sig_M', 'velocity']) --> label the specifc column names
+tbdata[0][:] --> access all data in column 0
+tbdata[:][0] --> acces all data in row 0
+import matplotlib.pyplot as plt (or from matplotlib import pyplot as plt)
+%matplotlib
+
+plt.plot(tbdata['dist_mod'], tbdata['velocity'],'o')
+
+Exercise 4: Write a function to convert the distance modulus to a distance
+Solution:
+def dm_to_dist(dm):
+    '''
+    convert distance modulus to distnace in parsecs
+    Input:
+        dm: distance modulus
+    Output:
+        dist: distance in parsecs
+    '''
+    dist = 10**(dm/5 + 1)
+    return dist
+    
+distance = dm_to_dist(tbdata['distance'])
+print(distance)
+dist_mpc = par_to_megapar(distance)
+plt.plot(dist_mpc, tbdata['velocity'], 'o')
+
+# Fitting a function to the data
+fit = np.polyfit(dist_mpc, tbdata['velocity'], 1) 
+fit_y = np.polyval(fit, dist_mpc) 
+plt.plot(dist_mpc, tbdata['velocity'], 'o', label='Supernova Data)
+plt.plot(dist_mpc, fit_y, label='Best Fit')
+plt.xlabel('Dsitance (Mpc)')
+plt.ylabel('Velocity (km/s)')
+plt.title('Hubble Diagram')
+plt.legend(loc='best')
+plt.savefig('hubble_diagram.pdf') 
+
+# Using units
+def convert_to_mpc(distance):
+    '''
+    convert distance to Mpc
+    Input:
+        distance: astropy quantity with units of distance
+    Output:
+        dist_mpc: astropy quantity with units of Mpc
+    '''
+	dist_mpc = distance.to(u.Mpc)
+	return dist_mpc
+
+new_dist = 4.3*u.lightyear
+new_dist_mpc = convert_to_mpc(new_dist)
+
+Code review:
+	* talking about code line by line
+	* in a group, individual, by skype
+	* like journal club
+	* bring to your group whether you are a supervisor or not
+	* you do not need to be an expert!
+	* https://www.python.org/dev/peps/pep-0008/
+	* https://www.python.org/dev/peps/pep-0257/
+	* https://gist.github.com/bourque/5004594018c9bf16a821410f5c9327a7
+	* 
+
+Code review exercise:
+    
+    https://gist.github.com/bourque/f4413847def85091307d8d6df493d8bc
+    
+    
+    Comments by Dennis & Mario:
+        
+        - So initial SUMMARY of what aims to be accomplished
+        
+        - Imports not put bunched together
+        
+        - imports that are never used ('os' & 'glob')
+        
+        - importing commands for matplotlib and glob need to be limited and are also not correct
+        
+        - no comment or description of what is being accomplished
+        
+        - import package that has already been made
+        
+        - lack of blank lines separating the sections of the code
+        
+        - could use function definitions for the different sections of the code
+			. in particular, for the three ploting tasks
+			
+	- in such function definitions, comments & documentation would be needed
+	
+	- comments describing what col1, col2, etc. mean
+    
+    
+Your name, your patner's name:
+    - some comments/suggestions
+    -some comments/suggestions
+    -some comments/suggestions
+    
+Greg/ Fernando: 
+code does same thing to three different data bits,
+perhaps a function to plot, and then pass in the column
+of interest to plot
+reorganize the imports
+restrict the matplot lib import (from matplotlim import pyplot as plt)
+no comments at all
+Document the code
+
+Iair and Ralf - Suggested re-write below addressing some issues:
+    
+from astropy.io import fits
+from matplotlib import pyplot as plt
+import numpy as np
+
+filename = '/Users/bostroem/Desktop/images/hubble_img.fits'
+
+fitsdata = fits.getdata(filename)
+
+cols_to_plot = [20,200,800]
+row = np.arange(1024)
+
+for col_num in cols_to_plot:
+    datacol = fitsdata[col_num, :] 
+    plt.figure()
+    plt.plot(row, datacol)
+    mean = np.mean(datacol)
+    plt.axhline(mean)
+    plt.legend(['Column {}'.format(col_num), 'Mean'])
+    plt.title('Plot of Column {} Values and Mean'.format(col_num))
+    plt.xlabel('Pixels')
+    plt.ylabel('Intensity')
+
+Ben and Regina
+No comments, no space or breaks, no indentation.
+Separate operations on data from plotting code
+a lot of redundant plotting code, it could be a function
+Create a function for the plots because they are repetitive
+move "import numpy as np" to the top
+Overwriting the same variable name
+Comment these lines to describe what they are, "col1 = data[20, :]"
+
+pyplot.plot(np.arange(1024), col1)
+pyplot.plot(np.arange(col1.size), col1) ;this only works if col1 is a numpy array.
+
+
