@@ -1,0 +1,355 @@
+Welcome to Software Carpentry Etherpad!
+
+This pad is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents.
+
+Use of this service is restricted to members of the Software Carpentry and Data Carpentry community; this is not for general purpose use (for that, try etherpad.wikimedia.org).
+
+Users are expected to follow our code of conduct: http://software-carpentry.org/conduct.html
+
+All content is publicly available under the Creative Commons Attribution License: https://creativecommons.org/licenses/by/4.0/
+
+Here: http://pad.software-carpentry.org/2018-01-07-aas
+
+
+wifi: AAS Meeting
+password: aas124816
+
+Course website: http://bit.ly/swcaas231
+Repository: https://github.com/abostroem/2018-01-07-aas
+More info on SWC: http://software-carpentry.org
+
+Schedule for today:
+09:00 Version control with git
+10:30 Coffee Break
+11:00 Sharing code with git/GitHub
+12:00 Lunch
+13:00Managing data with SQL
+15:00 Coffee Break
+15:30Managing data with SQL
+16:30 Post-assessment/Close
+17:00 End of Workshop
+
+--------------------------------
+Day 2
+--------------------------------
+
+In your spare time, please download the following: https://www.dropbox.com/s/o80up2k4h3z7uud/hipparcos.db?dl=0.  This is the database we will use for this afternoon's SQL discussion.
+
+Namespace discussion: http://sebastianraschka.com/Articles/2014_python_scope_and_namespaces.html
+
+Includes a detailed discussion of the global/local variable behavior brought up on Day 1 all as an executable notebook. 
+
+Git/GitHub:
+	* Local version control slides: http://slides.com/abostroem/local_version_control
+	* Collaborating with GitHub slides: http://slides.com/abostroem/deck-5
+
+Configuring git (your personal git environment); one time per system 
+URL for more details on setting up git: http://swcarpentry.github.io/git-novice/02-setup/
+steps: 
+    git config --global user.name "RudyHouse"
+    git config --global user.email "myawesomeemail@geocities.com" 
+    git config --global color.ui "auto" 
+    git config --global core.editor "nano" 
+
+Show your current configuration: 
+git config --list 
+
+Creating a Repository:
+    in home directory make a planet directory
+       cd 
+       mkdir planets 
+       cd planets 
+       git init          <- initializes git repository 
+       ls -a            <- shows hidden git repository (.git)
+
+Commonly-used command: 
+    git status
+        shows branch, commits, etc. 
+    'git help <command>' shows help for the given command
+
+Tracking changes: 
+    creation of files in the git repository revealed by 'git status' as untracked files 
+    add the file with 'git add <filename>' 
+    'git status' now shows that the file needs to be committed, to commit the changes: 
+    git commit -m "meaningful message to future self about changes" 
+    'git status' will now show that there is nothing to commit in the git repository 
+    
+Viewing history:
+    'git log' shows a history of commits.  It indicates the Author, commit date/time, and commit message
+    Commits are tag with 'commit hashes', which is a long unique string that identifies a commit
+    'git log -N' will show the most recent N commits (e.g. 'git log -5)
+    
+Viewing changes:
+    'git diff <filename>' shows changes made to the file
+    'git diff' (without filename) will show changes for every modified file in the repository
+    'git diff <filename>' only shows the difference between the last commit and unstaged files.  
+    'git diff --staged <filename>' will show the difference between the last commit and staged files.
+
+The coded information displayed when using git diff (unified diff hunk identifier) is detailed here: https://stackoverflow.com/questions/4061302/diff-file-syntax
+
+Reverting changes:
+    'git checkout -- <filename>' reverts current modifications back to the state at the latest commit, or the state of the file in the staging area (if it is in the staging area)
+
+Process is always: change, stage (add), commit
+You can throw a git status in if you aren't sure where you are in the process. 
+
+If you git commit without including the message flag (-m "message"), you will be redirected to the default text editor (nano in our case) to enter a message. 
+
+If multiple files are staged a single commit will commit all the files (good for global changes to file that only need one commit message). 
+If you want unique commit messages for each file, then you would add/commit each file one at a time. 
+
+Using hashes to reference past versions: 
+    the long string of characters output by 'git log' are identifiers for revision versions and referred to as hashes.  
+    you can use these hashes to reference past revisions with 'git diff <hash>' 
+    the first 7 characters should be sufficient for identifying versions 
+
+Recovering Older Versions:
+    git checkout HEAD mars.txt 
+    could have done HEAD~1, HEAD~2, etc. 
+    recovering should be done on file by file basis, otherwise you end up in a detached HEAD state and haunt the woods of sleepy hollow 
+    if you end up with a detached HEAD: git checkout master to get back to the original master repository 
+
+Sign-up for github (use your edu email address for some additional perks): https://github.com/ 
+
+Git references:
+    https://www.git-scm.com/book/en/v2
+    http://swcarpentry.github.io/git-novice/
+
+
+GitHub for remote repository: 
+    local git repository can be "pushed" to the cloud 
+    'git remote add origin <url>' will link the remote repository to your local repository
+    'git push -u origin master' will push the contents of your local repository to the remote repository
+    'git remote -v' shows the URL of the remote repository and the name of the remote repository (e.g. "origin")
+    After executing the 'push' command, you should see the repository's contents on the GitHub page
+
+To store your github credentials:
+documentation: https://git-scm.com/docs/git-credential-store/1.7.12.1
+git config credential.helper store
+git config --global credential.helper 'cache --timeout 3600' # automatically delete credentials after 1 hr
+ git push http://example.com/repo.git
+ replace the URL with your repo URL, after executing the second command it will prompt you for your login credentials and save them for later use.
+ Note this is not the recommended way as it will store your credentials in an unencrypted fit in the .git directory
+ The best way is to generate an SSH key
+
+
+
+Branching:
+    'git branch' shows the current branch (highlighted with an asterisk)
+    
+Collaboration Project
+Wolfram:
+     should clone Dracula's repository.
+	mkdir planets_collab
+	cd planets_collab
+	git clone https://github.com/<Dracula's username>/planets
+	cd planets
+
+Dracula:
+     add Wolfman as a collaborator.
+	on github website settings --> collaborator --> add collaborator
+
+Dracula:
+    modify mars.txt, save, add and then commit changes
+    Push the changes to the master branch in the online repo.
+    git add mars.txt
+    git commit -m "describe the changes"
+    git push origin master
+
+Wolfman:
+    pull down the changes made by Dracula
+	    - git pull origin master
+    add a line to end of the mars.txt, save, add, commit and push the changes.
+    git add mars.txt
+    git commit -m "describe the changes"
+    git push origin master
+    
+Merge without conflict:
+    Dracula: modify the first line of the mars.txt and commit the changes
+    Wolfman: modify the last line of mars.txt and commit the changes
+    Dracula: pull down the changes from Wolfman
+	    -save merge commit message in nano (crtl-x)
+	Dracula: push changes to the remote repository
+	Wolfram: pull down changes from dracula and save commit message
+	Wolfman: push your changes to the remote repository
+
+Enterprise Github Solutions that are more secure and provide the option for on-site hosting
+https://enterprise.github.com/features#integrations
+
+
+Link to the database download:  https://www.dropbox.com/s/o80up2k4h3z7uud/hipparcos.db?dl=0
+Please start downloading before lunch (it takes a while!)
+
+Database Overview
+types of databases : 
+    relational -- tables with rows and columns
+	* represent and store data in tables and rows
+	* use SQL (structured query language) which is like a programming language for relationsal databases
+	* examples include SQLite, MySQL, PostgreSQL, T-SQL
+    non-relational -- tabled (heh) for now (less structure, more a collection of data)
+	* represent and store data as collections of documents, objects, key-value sotres, or hierarchical data formats
+	* also known as "NoSQL" databases
+	* examples include JSON, MongoDB, etc.
+
+SQL -- Structured Query Language
+	* programming language for storing, manipulating, and retrieving data stored in a relational database
+	* all relational database management systems use SQL as their standard database language
+	* SQL can have different dialects that contain subtle differences
+
+	* http://cdsarc.u-strasbg.fr/viz-bin/Cat?cat=V%2F137D&target=readme&#sRM-F.42
+	* https://arxiv.org/abs/1108.4971
+
+Toy Example with the hipparcus.db database : 
+    
+    Initialize databse connection in SQLite :
+    >>> sqlite3 hipparcos.db
+    
+    List functions/additional information for SQLite:
+    sqlite> .help 
+    
+    List tables within the database:
+    sqlite> .tables
+    
+    Make output more human readable :
+    sqlite> .mode column
+    sqlite> .header on
+    
+    Pragmatics/table info:
+    sqlite> PRAGMA table_info(data);
+     cid         name        type        notnull     dflt_value  pk        
+	----------  ----------  ----------  ----------  ----------  ----------
+	0           HIP         INTEGER     0                       0         
+    
+    cid : column id
+    name : column name
+    type : data type INTEGER, FLOAT, TEXT, etc.
+    notnull : T/F (0/1) whether the type cpran be null
+    
+    List columns in the photometry table:
+    sqlite> PRAGMA table_info(photometry)
+    
+    How to ESCAPE an unfinished query?
+	* Every SQLite query must end with a ; -- so just finish it off.
+
+Select everything from table : 
+    sqlite> SELECT * 
+    ...> FROM data;
+	* (Of the form ACTION (select) things-to-select (* or everything) FROM database (data)
+
+Limit this to a readable # of rows?
+	sqlite> SELECT * 
+	...> FROM data 
+	...> LIMIT 10;
+	
+Select all columns from photometry table and limit the result to 50 rows:
+    sqlite> SELECT *
+    ...> FROM photometry
+    ...> LIMIT 50;
+	* SQL keywords (and database names) are case-insensitive (i.e. SELECT need not be capitialized) but it's common practice to capitalize keywords and have columns/tables that are lowercase
+
+Filtering :
+    syntax -- SELECT <column1_name>, <column2_name>, ..., <columnN_name> FROM <table_name>;
+    sqlite> SELECT HIP, RV, e_RV
+    ...> FROM data
+    ....> LIMIT 10;
+    
+Select HIpparcos Identifier, Hipparcos magnitude, and variability period from the photometry table :
+	sqlite> SELECT HIP, Hpmag, Per
+	...> FROM photometry;
+	...> LIMIT 10;
+
+Filtering by ROW :
+	* Introduce WHERE keyword
+	* WHERE <column_name> meets some condition
+	sqlite> SELECT HIP, RV, e_RV
+	...> FROM data
+	...> WHERE RV !=0;
+	* Use AND to add more conditions
+	sqlite> SELECT HIP, RV, e_RV
+	...> FROM data
+	...> WHERE RV !=0
+	...> AND e_RV < 1;
+
+Fun fact :  != is equivalent to <>
+
+Long query exercise : Select Hipparcos identifier, the Johnson B apparent mag, the Johnson V apparent mag, and the variability period. Select only sources whose period and B mag are non-zero and have B mag < 10.
+	sqlite> SELECT HIP, Bmag, Vmag, Per
+	...> FROM data
+	...> WHERE Bmag != 0
+	...> AND Per !=0
+	...> AND Bmag < 10
+	...> LIMIT 10;
+
+Count returned results:
+	* COUNT
+	sqlite> SELECT COUNT(*)
+	...> FROM data 
+	...> WHERE Bmag != 0
+	...> AND Per != 0
+	....> AND Bmag < 10;
+	COUNT(*)  
+	----------
+	3466      
+	
+Sorting results:
+    sqlite> SELECT <column1_name>, <column2_name>, ..., <columnN_name>
+    ...> FROM <table_name>
+    ...> WHERE <coumn_name> <condition>
+    ...> ORDER BY <column_name>;
+	* LIMIT applies after order and must come last. 
+
+Write a query that selects the Hipparcos identifer, the Johnson B and V apparent magnitudes, and the variability period. Only select sources whose V-magnitude is greater than 11, and whose variability type is 'P'. Order the results by the variability period.
+	sqlite> SELECT HIP, Bmag, Vmag, Per
+	...> FROM data
+	...> WHERE Vmag > 11
+	...> AND Hvar =  'p'
+	...> ORDER BY Per
+	...> LIMIT 10; 
+	* It seems like using = or == for truth conditionals works in SQLite but the single = MAY NOT in other SQL dialects.
+	* Note that you DO NOT have to select columns to use them for filters
+	* You can also sort in reverse order with DESC
+	sqlite> SELECT HIP 
+	..> FROM data 
+	...> ORDER BY HIP DESC 
+	...> LIMIT 10;
+
+Joining data from different tables:
+	sqlite> SELECT <column_name> 
+	...> FROM <table_name>
+	...> JOIN <table_name> ON <condition>;
+	* Now we need to be explicite about table name.
+	sqlite> SELECT data.HIP, pmRA, pmDE, Bmag, Vmag
+	...> FROM data
+	...> JOIN photometry ON data.HIP = phtometry.HIP;
+	* If you fail to specify the table name for a column that appears in two tables you'll get an error.
+
+	* General NOTE! SQL is not a fan of columns/tables that begin with #s or include dashes
+
+Using JOIN, write a query that selects the Hipparcos identifier and the radial velocity from the data table, as well as the Johnson B and V apparent magnitudes from the photometry table. Only select sources whose radial velocity are greater than 0, and order the results by the Johnson B magnitude.
+	sqlite> SELECT data.HIP, RV, Bmag, Vmag
+	...> FROM data
+	...> JOIN phtometry ON data.HIP = photometry.HIP
+	...> WHERE RV > 0
+	...> ORDER BY Bmag LIMIT 10;
+
+	* The .schema command will let you see how the table was created
+
+Look at this excellent well documented SQLite documentation with FLOW CHARTS: https://www.sqlite.org/lang_select.html
+
+TIME FOR PYTHON :
+    
+	* establish connection with the sqlite3.connect() command and direct to the database path
+	* create cursor object as a "session" to the database -- any command is exectuted on the cursor
+	* use triple quotes to do multi-line string commands -- which can be useful for writing out SQLite queries
+	* you need to fetch the results with fetchall() (or list) on the cursor, which will return tuple of column values for each table row
+	* After parsing the data however you please, you can plot, write to tables -- ANYTHING IS POSSIBLE
+	* You can use %matplotlib inline at the beginning of a cell to display plots inline in a jupyter notebook
+
+If you're having trouble reading the slides, here is a link: https://github.com/abostroem/2018-01-07-aas/blob/gh-pages/files/sql/managing_data_with_sql.ipynb
+
+
+Where to find things in the repo 
+DC Hack Together Day: http://www.astrobetter.com/wiki/AASHackDay
+SWC Post Assessment: https://www.surveymonkey.com/r/swc_post_workshop_v1?workshop_id=2018-01-07-aas 
+Post-it: Good/Bad 
+AAS Survey: http://bit.ly/aas231-profdev-survey How might we improve our AAS development workshop: if there was something specific you wish you'd seen, what was it? What material would you remove to make room for it?
